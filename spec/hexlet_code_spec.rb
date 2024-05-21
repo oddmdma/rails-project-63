@@ -7,7 +7,6 @@ RSpec.describe HexletCode do
   end
 end
 
-
 RSpec.describe HexletCode::Tag do
   describe ".build" do
     context "when no attributes or block given" do
@@ -23,7 +22,8 @@ RSpec.describe HexletCode::Tag do
     context "when attributes given" do
       it "includes the attributes in the tag" do
         expect(described_class.build("img", src: "path/to/image")).to eq('<img src="path/to/image">')
-        expect(described_class.build("input", type: "submit", value: "Save")).to eq('<input type="submit" value="Save">')
+        expect(described_class.build("input", type: "submit", value: "Save"))
+          .to eq('<input type="submit" value="Save">')
         expect(described_class.build("label", for: "email")).to eq('<label for="email"></label>')
       end
     end
