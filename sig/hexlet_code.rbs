@@ -2,3 +2,8 @@ module HexletCode
   VERSION: String
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
 end
+
+class HexletCode::Tag
+  VOID_ELEMENTS: Array[String]
+  def self.build: (String, ?Hash[Symbol, String]) { (String) -> String } -> String
+end
