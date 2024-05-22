@@ -2,6 +2,8 @@
 
 require "hexlet_code/tag"
 
+User = Struct.new(:name, :job, keyword_init: true)
+
 RSpec.describe HexletCode do
   it "has a version number" do
     expect(HexletCode::VERSION).not_to be nil
@@ -9,8 +11,6 @@ RSpec.describe HexletCode do
 end
 
 RSpec.describe HexletCode do
-  User = Struct.new(:name, :job, keyword_init: true)
-
   describe ".form_for" do
     let(:user) { User.new name: "rob" }
 
