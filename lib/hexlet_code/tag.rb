@@ -10,8 +10,8 @@ module HexletCode
     def self.build(name, attributes = {})
       attr_string = attributes.map { |key, value| "#{key}=\"#{value}\"" }.join(" ")
       attr_string = " #{attr_string}" unless attr_string.empty?
-      content = block_given? ? yield : ''
-      tag_end = VOID_ELEMENTS.include?(name) ? '' : "</#{name}>"
+      content = block_given? ? yield : ""
+      tag_end = VOID_ELEMENTS.include?(name) ? "" : "</#{name}>"
       "<#{name}#{attr_string}>#{content}#{tag_end}"
     end
   end

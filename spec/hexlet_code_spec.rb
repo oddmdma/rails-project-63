@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "hexlet_code/tag"
 
 RSpec.describe HexletCode do
