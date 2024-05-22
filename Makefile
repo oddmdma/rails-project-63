@@ -1,2 +1,2 @@
 install:
-    bundle install
+	bundle install
