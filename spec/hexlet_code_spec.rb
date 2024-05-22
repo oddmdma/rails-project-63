@@ -8,6 +8,26 @@ RSpec.describe HexletCode do
   end
 end
 
+RSpec.describe HexletCode do
+  User = Struct.new(:name, :job, keyword_init: true)
+
+  describe ".form_for" do
+    let(:user) { User.new name: "rob" }
+
+    context "when no url is provided" do
+      it "returns a form with action='#' and method='post'" do
+        expect(described_class.form_for(user)).to eq("<form action=\"#\" method=\"post\"></form>")
+      end
+    end
+
+    context "when url is provided" do
+      it "returns a form with the provided url as action and method='post'" do
+        expect(described_class.form_for(user, url: "/users")).to eq("<form action=\"/users\" method=\"post\"></form>")
+      end
+    end
+  end
+end
+
 RSpec.describe HexletCode::Tag do
   describe ".build" do
     context "when no attributes or block given" do

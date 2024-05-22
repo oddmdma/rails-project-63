@@ -11,4 +11,8 @@ module HexletCode
   class Error < StandardError; end
 
   # Your code goes here...
+  def self.form_for(_object, options = {})
+    action_url = options[:url] || "#"
+    Tag.build("form", action: action_url, method: "post")
+  end
 end
