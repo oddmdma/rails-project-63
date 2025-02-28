@@ -24,9 +24,9 @@ module HexletCode
       generate_input(name, value, options)
     end
 
-    def submit(value = "Save")
-      attributes = { type: "submit", value: value }
-      @inputs << Tag.build("input", attributes)
+    def submit(value = 'Save')
+      attributes = { type: 'submit', value: value }
+      @inputs << Tag.build('input', attributes)
     end
 
     private
@@ -39,7 +39,7 @@ module HexletCode
 
     def add_label(name)
       label_text = name.to_s.capitalize
-      @inputs << Tag.build("label", for: name.to_s) { label_text }
+      @inputs << Tag.build('label', for: name.to_s) { label_text }
     end
 
     def generate_input(name, value, options)
@@ -58,14 +58,14 @@ module HexletCode
     end
 
     def generate_text_input(name, value, options)
-      attributes = { name: name.to_s, type: "text", value: value }.merge(options)
-      @inputs << Tag.build("input", attributes)
+      attributes = { name: name.to_s, type: 'text', value: value }.merge(options)
+      @inputs << Tag.build('input', attributes)
     end
 
     def generate_textarea(name, value, options)
       # Default attributes for textarea
       attributes = { name: name.to_s, cols: 20, rows: 40 }.merge(options)
-      @inputs << Tag.build("textarea", attributes) { value.to_s }
+      @inputs << Tag.build('textarea', attributes) { value.to_s }
     end
   end
 end

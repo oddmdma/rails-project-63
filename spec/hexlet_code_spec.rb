@@ -1,57 +1,57 @@
 # frozen_string_literal: true
 
-require "hexlet_code/tag"
+require 'hexlet_code/tag'
 
 User = Struct.new(:name, :job, :gender, keyword_init: true)
 
 RSpec.describe HexletCode do
-  it "has a version number" do
+  it 'has a version number' do
     expect(HexletCode::VERSION).not_to be nil
   end
 end
 
 RSpec.describe HexletCode do
-  describe ".form_for" do
-    let(:user) { User.new name: "rob" }
+  describe '.form_for' do
+    let(:user) { User.new name: 'rob' }
 
-    context "when no url is provided" do
+    context 'when no url is provided' do
       it "returns a form with action='#' and method='post'" do
-        expect(described_class.form_for(user)).to eq("<form action=\"#\" method=\"post\"></form>")
+        expect(described_class.form_for(user)).to eq('<form action="#" method="post"></form>')
       end
     end
 
-    context "when url is provided" do
+    context 'when url is provided' do
       it "returns a form with the provided url as action and method='post'" do
-        expect(described_class.form_for(user, url: "/users")).to eq("<form action=\"/users\" method=\"post\"></form>")
+        expect(described_class.form_for(user, url: '/users')).to eq('<form action="/users" method="post"></form>')
       end
     end
 
-    context "when form has input fields" do
-      let(:user) { User.new name: "rob", job: "hexlet", gender: "m" }
+    context 'when form has input fields' do
+      let(:user) { User.new name: 'rob', job: 'hexlet', gender: 'm' }
 
-      it "generates text input fields" do
+      it 'generates text input fields' do
         result = described_class.form_for user do |f|
           f.input :name
         end
         expected = '<form action="#" method="post">' \
                    '<label for="name">Name</label>' \
                    '<input name="name" type="text" value="rob">' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
-      it "generates textarea fields" do
+      it 'generates textarea fields' do
         result = described_class.form_for user do |f|
           f.input :job, as: :textarea
         end
         expected = '<form action="#" method="post">' \
                    '<label for="job">Job</label>' \
                    '<textarea name="job" cols="20" rows="40">hexlet</textarea>' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
-      it "generates multiple fields" do
+      it 'generates multiple fields' do
         result = described_class.form_for user do |f|
           f.input :name
           f.input :job, as: :textarea
@@ -61,13 +61,13 @@ RSpec.describe HexletCode do
                    '<input name="name" type="text" value="rob">' \
                    '<label for="job">Job</label>' \
                    '<textarea name="job" cols="20" rows="40">hexlet</textarea>' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
-      it "supports additional attributes for fields" do
-        result = described_class.form_for user, url: "#" do |f|
-          f.input :name, class: "user-input"
+      it 'supports additional attributes for fields' do
+        result = described_class.form_for user, url: '#' do |f|
+          f.input :name, class: 'user-input'
           f.input :job
         end
         expected = '<form action="#" method="post">' \
@@ -75,22 +75,22 @@ RSpec.describe HexletCode do
                    '<input name="name" type="text" value="rob" class="user-input">' \
                    '<label for="job">Job</label>' \
                    '<input name="job" type="text" value="hexlet">' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
-      it "allows overriding default attributes for textarea" do
-        result = described_class.form_for user, url: "#" do |f|
+      it 'allows overriding default attributes for textarea' do
+        result = described_class.form_for user, url: '#' do |f|
           f.input :job, as: :textarea, rows: 50, cols: 50
         end
         expected = '<form action="#" method="post">' \
                    '<label for="job">Job</label>' \
                    '<textarea name="job" cols="50" rows="50">hexlet</textarea>' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
-      it "generates a submit button with default value" do
+      it 'generates a submit button with default value' do
         result = described_class.form_for user do |f|
           f.input :name
           f.input :job
@@ -102,15 +102,15 @@ RSpec.describe HexletCode do
                    '<label for="job">Job</label>' \
                    '<input name="job" type="text" value="hexlet">' \
                    '<input type="submit" value="Save">' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
-      it "generates a submit button with custom value" do
+      it 'generates a submit button with custom value' do
         result = described_class.form_for user do |f|
           f.input :name
           f.input :job
-          f.submit "Wow"
+          f.submit 'Wow'
         end
         expected = '<form action="#" method="post">' \
                    '<label for="name">Name</label>' \
@@ -118,13 +118,13 @@ RSpec.describe HexletCode do
                    '<label for="job">Job</label>' \
                    '<input name="job" type="text" value="hexlet">' \
                    '<input type="submit" value="Wow">' \
-                   "</form>"
+                   '</form>'
         expect(result).to eq(expected)
       end
 
       it "raises an error when field doesn't exist" do
         expect do
-          described_class.form_for user, url: "/users" do |f|
+          described_class.form_for user, url: '/users' do |f|
             f.input :name
             f.input :job, as: :textarea
             f.input :age
@@ -136,30 +136,30 @@ RSpec.describe HexletCode do
 end
 
 RSpec.describe HexletCode::Tag do
-  describe ".build" do
-    context "when no attributes or block given" do
-      it "returns a self-closing tag for void elements" do
-        expect(described_class.build("br")).to eq("<br>")
+  describe '.build' do
+    context 'when no attributes or block given' do
+      it 'returns a self-closing tag for void elements' do
+        expect(described_class.build('br')).to eq('<br>')
       end
 
-      it "returns an open and close tag for non-void elements" do
-        expect(described_class.build("div")).to eq("<div></div>")
+      it 'returns an open and close tag for non-void elements' do
+        expect(described_class.build('div')).to eq('<div></div>')
       end
     end
 
-    context "when attributes given" do
-      it "includes the attributes in the tag" do
-        expect(described_class.build("img", src: "path/to/image")).to eq('<img src="path/to/image">')
-        expect(described_class.build("input", type: "submit", value: "Save"))
+    context 'when attributes given' do
+      it 'includes the attributes in the tag' do
+        expect(described_class.build('img', src: 'path/to/image')).to eq('<img src="path/to/image">')
+        expect(described_class.build('input', type: 'submit', value: 'Save'))
           .to eq('<input type="submit" value="Save">')
-        expect(described_class.build("label", for: "email")).to eq('<label for="email"></label>')
+        expect(described_class.build('label', for: 'email')).to eq('<label for="email"></label>')
       end
     end
 
-    context "when block given" do
-      it "includes the block content in the tag" do
-        expect(described_class.build("label") { "Email" }).to eq("<label>Email</label>")
-        expect(described_class.build("label", for: "email") { "Email" }).to eq('<label for="email">Email</label>')
+    context 'when block given' do
+      it 'includes the block content in the tag' do
+        expect(described_class.build('label') { 'Email' }).to eq('<label>Email</label>')
+        expect(described_class.build('label', for: 'email') { 'Email' }).to eq('<label for="email">Email</label>')
       end
     end
   end

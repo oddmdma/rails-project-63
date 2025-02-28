@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative "hexlet_code/version"
+require_relative 'hexlet_code/version'
 
 # The HexletCode module is a library for building HTML tags.
 # It provides a Tag class that can be used to build HTML tags with attributes and content.
 module HexletCode
-  autoload :Tag, "hexlet_code/tag"
-  autoload :Form, "hexlet_code/form"
-  autoload :VERSION, "hexlet_code/version"
+  autoload :Tag, 'hexlet_code/tag'
+  autoload :Form, 'hexlet_code/form'
+  autoload :VERSION, 'hexlet_code/version'
 
   class Error < StandardError; end
 
@@ -20,10 +20,10 @@ module HexletCode
   # @return [String] The HTML form.
   def self.form_for(object, options = {})
     # Extract form-specific options
-    action_url = options.delete(:url) || "#"
+    action_url = options.delete(:url) || '#'
 
     # Set default form attributes
-    form_attributes = { action: action_url, method: "post" }
+    form_attributes = { action: action_url, method: 'post' }
 
     # Merge any additional attributes provided in options
     form_attributes.merge!(options)
@@ -35,7 +35,7 @@ module HexletCode
     yield(form) if block_given?
 
     # Build the form tag with the inputs
-    Tag.build("form", form_attributes) do
+    Tag.build('form', form_attributes) do
       form.inputs.join
     end
   end
