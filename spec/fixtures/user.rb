@@ -28,8 +28,14 @@ module Fixtures
   # @param attrs [Hash] Дополнительные атрибуты для поля
   # @return [String] HTML формы с текстовым полем
   def self.form_with_text_input(name:, value:, action: '#', attrs: {})
-    attrs_str = attrs.empty? ? '' : " #{attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ")}"
-    %(<form action="#{action}" method="post"><label for="#{name}">#{name.capitalize}</label><input name="#{name}" type="text" value="#{value}"#{attrs_str}></form>)
+    attrs_str = attrs.empty? ? '' : " #{attrs.map { |k, v| "#{k}='#{v}'" }.join(" ")}"
+
+    [
+      "<form action=\"#{action}\" method=\"post\">",
+      "<label for=\"#{name}\">#{name.capitalize}</label>",
+      "<input name=\"#{name}\" type=\"text\" value=\"#{value}\"#{attrs_str}>",
+      '</form>'
+    ].join
   end
 
   # Возвращает HTML для формы с текстовой областью
@@ -40,7 +46,12 @@ module Fixtures
   # @param rows [Integer] Количество строк
   # @return [String] HTML формы с текстовой областью
   def self.form_with_textarea(name:, value:, action: '#', cols: 20, rows: 40)
-    %(<form action="#{action}" method="post"><label for="#{name}">#{name.capitalize}</label><textarea name="#{name}" cols="#{cols}" rows="#{rows}">#{value}</textarea></form>)
+    [
+      "<form action=\"#{action}\" method=\"post\">",
+      "<label for=\"#{name}\">#{name.capitalize}</label>",
+      "<textarea name=\"#{name}\" cols=\"#{cols}\" rows=\"#{rows}\">#{value}</textarea>",
+      '</form>'
+    ].join
   end
 
   # Возвращает HTML для формы с кнопкой отправки
@@ -48,6 +59,10 @@ module Fixtures
   # @param action [String] URL для действия формы
   # @return [String] HTML формы с кнопкой отправки
   def self.form_with_submit(button_value: 'Save', action: '#')
-    %(<form action="#{action}" method="post"><input type="submit" value="#{button_value}"></form>)
+    [
+      "<form action=\"#{action}\" method=\"post\">",
+      "<input type=\"submit\" value=\"#{button_value}\">",
+      '</form>'
+    ].join
   end
 end
