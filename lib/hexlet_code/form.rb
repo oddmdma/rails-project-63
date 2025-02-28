@@ -50,7 +50,7 @@ module HexletCode
       case input_type
       when :input
         generate_text_input(name, value, options)
-      when :textarea
+      when :text, :textarea
         generate_textarea(name, value, options)
       else
         raise ArgumentError, "Unknown input type: #{input_type}"

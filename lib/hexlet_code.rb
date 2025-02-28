@@ -19,8 +19,14 @@ module HexletCode
   # @yieldparam form [Form] The form builder.
   # @return [String] The HTML form.
   def self.form_for(object, options = {})
-    action_url = options[:url] || "#"
+    # Extract form-specific options
+    action_url = options.delete(:url) || "#"
+
+    # Set default form attributes
     form_attributes = { action: action_url, method: "post" }
+
+    # Merge any additional attributes provided in options
+    form_attributes.merge!(options)
 
     # Create a new form builder
     form = Form.new(object)
