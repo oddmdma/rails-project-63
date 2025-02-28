@@ -36,11 +36,15 @@ user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
 HexletCode.form_for user do |f|
   f.input :name
   f.input :job
+  f.submit
 end
 
 # <form action="#" method="post">
+#   <label for="name">Name</label>
 #   <input name="name" type="text" value="rob">
+#   <label for="job">Job</label>
 #   <input name="job" type="text" value="hexlet">
+#   <input type="submit" value="Save">
 # </form>
 ```
 
@@ -50,11 +54,15 @@ end
 HexletCode.form_for user, url: '/users' do |f|
   f.input :name
   f.input :job
+  f.submit
 end
 
 # <form action="/users" method="post">
+#   <label for="name">Name</label>
 #   <input name="name" type="text" value="rob">
+#   <label for="job">Job</label>
 #   <input name="job" type="text" value="hexlet">
+#   <input type="submit" value="Save">
 # </form>
 ```
 
@@ -63,10 +71,13 @@ end
 ```ruby
 HexletCode.form_for user do |f|
   f.input :job, as: :textarea
+  f.submit
 end
 
 # <form action="#" method="post">
+#   <label for="job">Job</label>
 #   <textarea name="job" cols="20" rows="40">hexlet</textarea>
+#   <input type="submit" value="Save">
 # </form>
 ```
 
@@ -76,11 +87,15 @@ end
 HexletCode.form_for user do |f|
   f.input :name, class: 'user-input'
   f.input :job, as: :textarea, rows: 50, cols: 50
+  f.submit 'Отправить'
 end
 
 # <form action="#" method="post">
+#   <label for="name">Name</label>
 #   <input name="name" type="text" value="rob" class="user-input">
+#   <label for="job">Job</label>
 #   <textarea name="job" cols="50" rows="50">hexlet</textarea>
+#   <input type="submit" value="Отправить">
 # </form>
 ```
 

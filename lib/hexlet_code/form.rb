@@ -17,8 +17,16 @@ module HexletCode
       # Get the value from the object
       value = @object.public_send(name)
 
+      # Add label for the input
+      add_label(name)
+
       # Generate input based on type
       generate_input(name, value, options)
+    end
+
+    def submit(value = "Save")
+      attributes = { type: "submit", value: value }
+      @inputs << Tag.build("input", attributes)
     end
 
     private
@@ -27,6 +35,11 @@ module HexletCode
       return if @object.respond_to?(name)
 
       raise NoMethodError, "undefined method `#{name}' for #{@object.inspect}"
+    end
+
+    def add_label(name)
+      label_text = name.to_s.capitalize
+      @inputs << Tag.build("label", for: name.to_s) { label_text }
     end
 
     def generate_input(name, value, options)

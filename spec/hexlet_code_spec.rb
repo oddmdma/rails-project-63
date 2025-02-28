@@ -33,7 +33,10 @@ RSpec.describe HexletCode do
         result = described_class.form_for user do |f|
           f.input :name
         end
-        expected = '<form action="#" method="post"><input name="name" type="text" value="rob"></form>'
+        expected = '<form action="#" method="post">' \
+                   '<label for="name">Name</label>' \
+                   '<input name="name" type="text" value="rob">' \
+                   "</form>"
         expect(result).to eq(expected)
       end
 
@@ -41,7 +44,10 @@ RSpec.describe HexletCode do
         result = described_class.form_for user do |f|
           f.input :job, as: :textarea
         end
-        expected = '<form action="#" method="post"><textarea name="job" cols="20" rows="40">hexlet</textarea></form>'
+        expected = '<form action="#" method="post">' \
+                   '<label for="job">Job</label>' \
+                   '<textarea name="job" cols="20" rows="40">hexlet</textarea>' \
+                   "</form>"
         expect(result).to eq(expected)
       end
 
@@ -51,7 +57,9 @@ RSpec.describe HexletCode do
           f.input :job, as: :textarea
         end
         expected = '<form action="#" method="post">' \
+                   '<label for="name">Name</label>' \
                    '<input name="name" type="text" value="rob">' \
+                   '<label for="job">Job</label>' \
                    '<textarea name="job" cols="20" rows="40">hexlet</textarea>' \
                    "</form>"
         expect(result).to eq(expected)
@@ -63,7 +71,9 @@ RSpec.describe HexletCode do
           f.input :job
         end
         expected = '<form action="#" method="post">' \
+                   '<label for="name">Name</label>' \
                    '<input name="name" type="text" value="rob" class="user-input">' \
+                   '<label for="job">Job</label>' \
                    '<input name="job" type="text" value="hexlet">' \
                    "</form>"
         expect(result).to eq(expected)
@@ -74,7 +84,40 @@ RSpec.describe HexletCode do
           f.input :job, as: :textarea, rows: 50, cols: 50
         end
         expected = '<form action="#" method="post">' \
+                   '<label for="job">Job</label>' \
                    '<textarea name="job" cols="50" rows="50">hexlet</textarea>' \
+                   "</form>"
+        expect(result).to eq(expected)
+      end
+
+      it "generates a submit button with default value" do
+        result = described_class.form_for user do |f|
+          f.input :name
+          f.input :job
+          f.submit
+        end
+        expected = '<form action="#" method="post">' \
+                   '<label for="name">Name</label>' \
+                   '<input name="name" type="text" value="rob">' \
+                   '<label for="job">Job</label>' \
+                   '<input name="job" type="text" value="hexlet">' \
+                   '<input type="submit" value="Save">' \
+                   "</form>"
+        expect(result).to eq(expected)
+      end
+
+      it "generates a submit button with custom value" do
+        result = described_class.form_for user do |f|
+          f.input :name
+          f.input :job
+          f.submit "Wow"
+        end
+        expected = '<form action="#" method="post">' \
+                   '<label for="name">Name</label>' \
+                   '<input name="name" type="text" value="rob">' \
+                   '<label for="job">Job</label>' \
+                   '<input name="job" type="text" value="hexlet">' \
+                   '<input type="submit" value="Wow">' \
                    "</form>"
         expect(result).to eq(expected)
       end
