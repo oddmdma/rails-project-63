@@ -11,11 +11,13 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 120
+  Exclude:
+    - 'spec/fixtures/**/*'
 
 Metrics/BlockLength:
   Max: 150
   Exclude:
-    - 'spec/**/*_spec.rb'
+    - 'spec/**/*'
 
 Metrics/MethodLength:
   Max: 15

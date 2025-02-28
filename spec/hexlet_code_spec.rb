@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'hexlet_code/tag'
-
-User = Struct.new(:name, :job, :gender, keyword_init: true)
+require_relative 'fixtures/user'
+require_relative 'fixtures/complex_forms'
 
 RSpec.describe HexletCode do
   it 'has a version number' do
@@ -12,17 +12,17 @@ end
 
 RSpec.describe HexletCode do
   describe '.form_for' do
-    let(:user) { User.new name: 'rob' }
+    let(:user) { Fixtures.user(name: 'rob') }
 
     context 'when no url is provided' do
       it "returns a form with action='#' and method='post'" do
-        expect(described_class.form_for(user)).to eq('<form action="#" method="post"></form>')
+        expect(described_class.form_for(user)).to eq(Fixtures.empty_form)
       end
     end
 
     context 'when url is provided' do
       it "returns a form with the provided url as action and method='post'" do
-        expect(described_class.form_for(user, url: '/users')).to eq('<form action="/users" method="post"></form>')
+        expect(described_class.form_for(user, url: '/users')).to eq(Fixtures.empty_form(action: '/users'))
       end
     end
   end
@@ -30,86 +30,70 @@ end
 
 RSpec.describe HexletCode do
   describe '.form_for with input fields' do
-    let(:user) { User.new name: 'rob', job: 'hexlet', gender: 'm' }
+    let(:user) { Fixtures.user }
 
     it 'generates text input fields' do
       result = described_class.form_for user do |f|
         f.input :name
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="name">Name</label>' \
-                 '<input name="name" type="text" value="rob">' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(Fixtures.form_with_text_input(name: 'name', value: 'rob'))
     end
 
     it 'generates textarea fields' do
       result = described_class.form_for user do |f|
         f.input :job, as: :textarea
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="job">Job</label>' \
-                 '<textarea name="job" cols="20" rows="40">hexlet</textarea>' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(Fixtures.form_with_textarea(name: 'job', value: 'hexlet'))
     end
   end
 end
 
 RSpec.describe HexletCode do
   describe '.form_for with multiple fields' do
-    let(:user) { User.new name: 'rob', job: 'hexlet', gender: 'm' }
+    let(:user) { Fixtures.user }
 
     it 'generates multiple fields' do
       result = described_class.form_for user do |f|
         f.input :name
         f.input :job, as: :textarea
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="name">Name</label>' \
-                 '<input name="name" type="text" value="rob">' \
-                 '<label for="job">Job</label>' \
-                 '<textarea name="job" cols="20" rows="40">hexlet</textarea>' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(ComplexForms.form_with_multiple_fields(name_value: 'rob', job_value: 'hexlet'))
     end
   end
 end
 
 RSpec.describe HexletCode do
   describe '.form_for with custom attributes' do
-    let(:user) { User.new name: 'rob', job: 'hexlet', gender: 'm' }
+    let(:user) { Fixtures.user }
 
     it 'supports additional attributes for fields' do
       result = described_class.form_for user, url: '#' do |f|
         f.input :name, class: 'user-input'
         f.input :job
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="name">Name</label>' \
-                 '<input name="name" type="text" value="rob" class="user-input">' \
-                 '<label for="job">Job</label>' \
-                 '<input name="job" type="text" value="hexlet">' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(ComplexForms.form_with_custom_attributes(
+                             name_value: 'rob',
+                             job_value: 'hexlet',
+                             name_class: 'user-input'
+                           ))
     end
 
     it 'allows overriding default attributes for textarea' do
       result = described_class.form_for user, url: '#' do |f|
         f.input :job, as: :textarea, rows: 50, cols: 50
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="job">Job</label>' \
-                 '<textarea name="job" cols="50" rows="50">hexlet</textarea>' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(ComplexForms.form_with_custom_textarea(
+                             job_value: 'hexlet',
+                             cols: 50,
+                             rows: 50
+                           ))
     end
   end
 end
 
 RSpec.describe HexletCode do
-  describe '.form_for with submit button' do
-    let(:user) { User.new name: 'rob', job: 'hexlet', gender: 'm' }
+  describe '.form_for with default submit button' do
+    let(:user) { Fixtures.user }
 
     it 'generates a submit button with default value' do
       result = described_class.form_for user do |f|
@@ -117,15 +101,15 @@ RSpec.describe HexletCode do
         f.input :job
         f.submit
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="name">Name</label>' \
-                 '<input name="name" type="text" value="rob">' \
-                 '<label for="job">Job</label>' \
-                 '<input name="job" type="text" value="hexlet">' \
-                 '<input type="submit" value="Save">' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(ComplexForms.form_with_fields_and_submit(
+                             name_value: 'rob',
+                             job_value: 'hexlet'
+                           ))
     end
+  end
+
+  describe '.form_for with custom submit button' do
+    let(:user) { Fixtures.user }
 
     it 'generates a submit button with custom value' do
       result = described_class.form_for user do |f|
@@ -133,21 +117,18 @@ RSpec.describe HexletCode do
         f.input :job
         f.submit 'Wow'
       end
-      expected = '<form action="#" method="post">' \
-                 '<label for="name">Name</label>' \
-                 '<input name="name" type="text" value="rob">' \
-                 '<label for="job">Job</label>' \
-                 '<input name="job" type="text" value="hexlet">' \
-                 '<input type="submit" value="Wow">' \
-                 '</form>'
-      expect(result).to eq(expected)
+      expect(result).to eq(ComplexForms.form_with_fields_and_submit(
+                             name_value: 'rob',
+                             job_value: 'hexlet',
+                             button_value: 'Wow'
+                           ))
     end
   end
 end
 
 RSpec.describe HexletCode do
   describe '.form_for error handling' do
-    let(:user) { User.new name: 'rob', job: 'hexlet', gender: 'm' }
+    let(:user) { Fixtures.user }
 
     it "raises an error when field doesn't exist" do
       expect do
