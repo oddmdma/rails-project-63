@@ -12,11 +12,24 @@ module HexletCode
 
     def input(name, options = {})
       # Check if the object has the attribute
-      raise NoMethodError, "undefined method `#{name}' for #{@object.inspect}" unless @object.respond_to?(name)
+      validate_attribute(name)
 
       # Get the value from the object
       value = @object.public_send(name)
 
+      # Generate input based on type
+      generate_input(name, value, options)
+    end
+
+    private
+
+    def validate_attribute(name)
+      return if @object.respond_to?(name)
+
+      raise NoMethodError, "undefined method `#{name}' for #{@object.inspect}"
+    end
+
+    def generate_input(name, value, options)
       # Extract the input type from options
       input_type = options.delete(:as) || :input
 
@@ -30,8 +43,6 @@ module HexletCode
         raise ArgumentError, "Unknown input type: #{input_type}"
       end
     end
-
-    private
 
     def generate_text_input(name, value, options)
       attributes = { name: name.to_s, type: "text", value: value }.merge(options)
