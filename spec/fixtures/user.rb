@@ -28,7 +28,7 @@ module Fixtures
   # @param attrs [Hash] Дополнительные атрибуты для поля
   # @return [String] HTML формы с текстовым полем
   def self.form_with_text_input(name:, value:, action: '#', attrs: {})
-    attrs_str = attrs.empty? ? '' : " #{attrs.map { |k, v| "#{k}='#{v}'" }.join(" ")}"
+    attrs_str = attrs.empty? ? '' : " #{attrs.map { |k, v| "#{k}='#{v}'" }.join(' ')}"
 
     [
       "<form action=\"#{action}\" method=\"post\">",
