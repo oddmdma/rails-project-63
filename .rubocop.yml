@@ -15,9 +15,7 @@ Layout/LineLength:
     - 'spec/fixtures/**/*'
 
 Metrics/BlockLength:
-  Max: 150
-  Exclude:
-    - 'spec/**/*'
+  Max: 25
 
 Metrics/MethodLength:
   Max: 15

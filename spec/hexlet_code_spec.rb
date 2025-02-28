@@ -28,8 +28,9 @@ RSpec.describe HexletCode do
   end
 end
 
+# Тесты для генерации полей ввода
 RSpec.describe HexletCode do
-  describe '.form_for with input fields' do
+  describe '.form_for with text input fields' do
     let(:user) { Fixtures.user }
 
     it 'generates text input fields' do
@@ -38,6 +39,12 @@ RSpec.describe HexletCode do
       end
       expect(result).to eq(Fixtures.form_with_text_input(name: 'name', value: 'rob'))
     end
+  end
+end
+
+RSpec.describe HexletCode do
+  describe '.form_for with textarea fields' do
+    let(:user) { Fixtures.user }
 
     it 'generates textarea fields' do
       result = described_class.form_for user do |f|
@@ -48,6 +55,7 @@ RSpec.describe HexletCode do
   end
 end
 
+# Тесты для генерации нескольких полей
 RSpec.describe HexletCode do
   describe '.form_for with multiple fields' do
     let(:user) { Fixtures.user }
@@ -62,8 +70,9 @@ RSpec.describe HexletCode do
   end
 end
 
+# Тесты для пользовательских атрибутов
 RSpec.describe HexletCode do
-  describe '.form_for with custom attributes' do
+  describe '.form_for with custom attributes for text fields' do
     let(:user) { Fixtures.user }
 
     it 'supports additional attributes for fields' do
@@ -77,6 +86,12 @@ RSpec.describe HexletCode do
                              name_class: 'user-input'
                            ))
     end
+  end
+end
+
+RSpec.describe HexletCode do
+  describe '.form_for with custom attributes for textarea' do
+    let(:user) { Fixtures.user }
 
     it 'allows overriding default attributes for textarea' do
       result = described_class.form_for user, url: '#' do |f|
@@ -91,6 +106,7 @@ RSpec.describe HexletCode do
   end
 end
 
+# Тесты для кнопки отправки формы
 RSpec.describe HexletCode do
   describe '.form_for with default submit button' do
     let(:user) { Fixtures.user }
@@ -107,7 +123,9 @@ RSpec.describe HexletCode do
                            ))
     end
   end
+end
 
+RSpec.describe HexletCode do
   describe '.form_for with custom submit button' do
     let(:user) { Fixtures.user }
 
@@ -126,6 +144,7 @@ RSpec.describe HexletCode do
   end
 end
 
+# Тесты для обработки ошибок
 RSpec.describe HexletCode do
   describe '.form_for error handling' do
     let(:user) { Fixtures.user }
@@ -142,6 +161,7 @@ RSpec.describe HexletCode do
   end
 end
 
+# Тесты для класса Tag
 RSpec.describe HexletCode::Tag do
   describe '.build' do
     context 'when no attributes or block given' do
